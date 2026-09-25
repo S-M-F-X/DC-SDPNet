@@ -1,0 +1,30 @@
+====================================================================================================
+DC-SDPNet release: v7
+Run: DC_SDPNet_q8
+Mode: evaluation only
+Project root: D:\文件\python\DC-SDPNet
+Dataset: D:\文件\python\DC-SDPNet\dataset\pv_power_1,7_3d.npy
+Checkpoint: D:\文件\python\DC-SDPNet\output\DC_SDPNet_q8\model\checkpoint.pth
+Horizon: q=8 | d_model=96 | batch=24 | lr=0.00075 | weight_decay=0.0001 | ramp_lambda=0.06
+Training station scales: K=[1, 8, 16, 32, 64, 227]
+Validation regime: Full (K=227)
+Subset16 station IDs: [0, 3, 7, 12, 25, 31, 44, 58, 63, 79, 88, 91, 105, 126, 144, 166]
+Subset32 station IDs: [0, 3, 7, 12, 25, 31, 44, 58, 63, 79, 88, 91, 105, 126, 144, 166, 180, 199, 210, 226, 5, 19, 37, 52, 69, 83, 97, 111, 138, 152, 170, 190]
+Device: cuda:0
+Train shape: (6988, 8, 227)
+Validation shape: (977, 8, 227)
+Test shape: (977, 8, 227)
+Evaluation started.
+Loaded checkpoint: D:\文件\python\DC-SDPNet\output\DC_SDPNet_q8\model\checkpoint.pth
+Model size: 1.2280 MB | Parameters: 321911 | Trainable parameters: 321911
+Evaluating Full...
+Full         MAE 0.808040 | RMSE 4.394305 | Pearson 0.995742 | R2 0.991402 | Time 1.9255s
+Evaluating Subset16...
+Subset16     MAE 0.397634 | RMSE 1.366313 | Pearson 0.997186 | R2 0.994280 | Time 0.4157s
+Evaluating Subset32...
+Subset32     MAE 0.575173 | RMSE 2.369103 | Pearson 0.996542 | R2 0.993034 | Time 0.4787s
+Evaluating Single227...
+Single227    MAE 1.005037 | RMSE 2.674168 | Pearson 0.992646 | R2 0.984438 | Time 102.8669s
+Avg4         MAE 0.696471 | RMSE 2.700972 | Pearson 0.995529 | R2 0.990789
+Total evaluation time: 105.6869 s
+Run completed.

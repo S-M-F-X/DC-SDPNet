@@ -1,0 +1,140 @@
+RELEASE_VERSION = 'v7'
+
+PAPER_EVAL_SETS = {
+    'subset16': (0, 3, 7, 12, 25, 31, 44, 58, 63, 79, 88, 91, 105, 126, 144, 166),
+    'subset32': (0, 3, 7, 12, 25, 31, 44, 58, 63, 79, 88, 91, 105, 126, 144, 166, 180, 199, 210, 226, 5, 19, 37, 52, 69, 83, 97, 111, 138, 152, 170, 190),
+}
+
+HORIZON_CONFIGS = {
+    4: {
+        'seed': 2025,
+        'epoch': 400,
+        'batch_size': 32,
+        'train_ratio': 0.8,
+        'valid_ratio': 0.1,
+        'hist_len': 96,
+        'pred_len': 4,
+        'output_dim': 1,
+        'patience': 20,
+        'lr': 0.001,
+        'weight_decay': 0.001,
+        'eta_min': 1e-6,
+        'scheduler_t_max': 400,
+        'd_model': 64,
+        'hidden_dim': 64,
+        'num_heads': 4,
+        'dropout': 0.0,
+        'seg_len': 4,
+        'num_prototypes': 8,
+        'residual_alpha_init': 0.11,
+        'context_gate_bias': -1.5,
+        'prompt_alpha': 0.05,
+        'film_alpha': 0.10,
+        'corr_gate_scale': 0.15,
+        'selective_gate_alpha': 0.10,
+        'channel_attn_alpha': 0.10,
+        'regime_alpha': 0.06,
+        'unit_attn_alpha': 0.10,
+        'ramp_lambda': 0.05,
+        'smooth_l1_beta': 1.0,
+        'grad_clip': 1.0,
+        'unit_train_mode': 'mixed',
+        'unit_subset_sizes': (8, 16, 32, 64),
+        'unit_single_prob': 0.10,
+        'unit_subset_prob': 0.20,
+        'validation_mode': 'full',
+    },
+    8: {
+        'seed': 2025,
+        'epoch': 400,
+        'batch_size': 24,
+        'train_ratio': 0.8,
+        'valid_ratio': 0.1,
+        'hist_len': 96,
+        'pred_len': 8,
+        'output_dim': 1,
+        'patience': 20,
+        'lr': 0.00075,
+        'weight_decay': 0.0001,
+        'eta_min': 1e-6,
+        'scheduler_t_max': 400,
+        'd_model': 96,
+        'hidden_dim': 96,
+        'num_heads': 4,
+        'dropout': 0.05,
+        'seg_len': 4,
+        'num_prototypes': 12,
+        'residual_alpha_init': 0.14,
+        'context_gate_bias': -1.25,
+        'prompt_alpha': 0.05,
+        'film_alpha': 0.12,
+        'corr_gate_scale': 0.15,
+        'selective_gate_alpha': 0.12,
+        'channel_attn_alpha': 0.15,
+        'regime_alpha': 0.10,
+        'unit_attn_alpha': 0.18,
+        'ramp_lambda': 0.06,
+        'smooth_l1_beta': 1.0,
+        'grad_clip': 1.0,
+        'unit_train_mode': 'mixed',
+        'unit_subset_sizes': (8, 16, 32, 64),
+        'unit_single_prob': 0.10,
+        'unit_subset_prob': 0.30,
+        'validation_mode': 'full',
+    },
+    16: {
+        'seed': 2025,
+        'epoch': 400,
+        'batch_size': 32,
+        'train_ratio': 0.8,
+        'valid_ratio': 0.1,
+        'hist_len': 96,
+        'pred_len': 16,
+        'output_dim': 1,
+        'patience': 20,
+        'lr': 0.001,
+        'weight_decay': 0.001,
+        'eta_min': 1e-6,
+        'scheduler_t_max': 400,
+        'd_model': 64,
+        'hidden_dim': 64,
+        'num_heads': 4,
+        'dropout': 0.0,
+        'seg_len': 4,
+        'num_prototypes': 8,
+        'residual_alpha_init': 0.11,
+        'context_gate_bias': -1.5,
+        'prompt_alpha': 0.05,
+        'film_alpha': 0.10,
+        'corr_gate_scale': 0.15,
+        'selective_gate_alpha': 0.10,
+        'channel_attn_alpha': 0.10,
+        'regime_alpha': 0.06,
+        'unit_attn_alpha': 0.10,
+        'ramp_lambda': 0.05,
+        'smooth_l1_beta': 1.0,
+        'grad_clip': 1.0,
+        'unit_train_mode': 'mixed',
+        'unit_subset_sizes': (8, 16, 32, 64),
+        'unit_single_prob': 0.10,
+        'unit_subset_prob': 0.20,
+        'validation_mode': 'full',
+    },
+}
+
+
+class DCSDPNetConfig:
+    def __init__(self, pred_len=4):
+        pred_len = int(pred_len)
+        if pred_len not in HORIZON_CONFIGS:
+            raise ValueError(f'Unsupported pred_len: {pred_len}. Available values: {sorted(HORIZON_CONFIGS)}')
+        for key, value in HORIZON_CONFIGS[pred_len].items():
+            setattr(self, key, value)
+        self.release_version = RELEASE_VERSION
+        self.eval_subset16_ids = PAPER_EVAL_SETS['subset16']
+        self.eval_subset32_ids = PAPER_EVAL_SETS['subset32']
+        self.training_station_scales = (1,) + tuple(self.unit_subset_sizes) + (227,)
+
+
+def get_config(pred_len=4):
+    return DCSDPNetConfig(pred_len)
