@@ -1,4 +1,4 @@
-# DC-SDPNet release v7
+# DC-SDPNet
 
 DC-SDPNet supports photovoltaic power forecasting with a dynamic number and composition of available stations.
 
@@ -12,15 +12,35 @@ pip install -r requirements.txt
 
 ## Data
 
-The released dataset is stored at:
+The preprocessed dataset used in this project is provided as a GitHub Release asset.
+
+Release:
+
+[`DC-SDPNet v1.0.0`](https://github.com/S-M-F-X/DC-SDPNet/releases/tag/v1.0.0)
+
+Dataset file:
+
+```text
+pv_power_1,7_3d.npy
+```
+
+After downloading the file, place it at:
 
 ```text
 dataset/pv_power_1,7_3d.npy
 ```
 
-Its shape is `[time, feature, station]` with 227 stations and 8 features.
+The expected dataset shape is:
 
-All default project paths are resolved relative to `main.py`, not to the terminal or IDE working directory. Therefore the released dataset, output folders, checkpoints, and logs are found consistently when the program is started from PyCharm, a terminal, or another working directory.
+```text
+[time, feature, station]
+```
+
+with 227 stations and 8 features.
+
+The dataset is distributed through GitHub Releases rather than stored directly in the Git repository because its file size exceeds the GitHub web-upload limit.
+
+All default project paths are resolved relative to `main.py`, not to the terminal or IDE working directory. Therefore the dataset, output folders, checkpoints, and logs are found consistently when the program is started from PyCharm, a terminal, or another working directory.
 
 ## Forecast horizons
 
@@ -132,4 +152,5 @@ solver/solver_cos.py    training, validation, checkpointing, and multi-regime ev
 util/config.py          released horizon configurations and fixed evaluation station sets
 util/dataset.py         dataset loading and normalization
 util/eval.py            evaluation metrics
+dataset/README.md       dataset download and placement instructions
 ```
